@@ -1,0 +1,198 @@
+# User configuration
+
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US.UTF-8
+export PYTHONIOENCODING='UTF-8'
+
+# Preferences for local and remote sessions
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vim'
+else
+  export EDITOR='vim'
+fi
+
+# User configuration
+# Hide user@hostname if it's expected default user
+DEFAULT_USER="ashutosh"
+prompt_context(){}
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+########################
+## fzf configuration
+########################
+
+# Use ~~ as the trigger sequence instead of the default **
+# export FZF_COMPLETION_TRIGGER='~~'
+
+# Options to fzf command
+export FZF_COMPLETION_OPTS='+c -x'
+
+local _fzf_compgen_path_command
+local _fzf_compgen_dir_command
+
+if type rg > /dev/null; then
+  # Use rg as the default source for fzf.
+  # Always follow symbolic links and include hidden files, but exclude VCS data like the .git folder.
+  # export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
+  # export FZF_DEFAULT_COMMAND='ag --follow --hidden -g ""'
+  # export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"  
+
+  export FZF_DEFAULT_COMMAND='rg --files --follow --hidden'  
+  export FZF_CTRL_T_COMMAND='rg --files --follow --hidden'
+  export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude ".git" --exclude "node_modules"'
+fi
+
+# use ag/ripgrep for files search
+_fzf_compgen_path() {
+	# fd --hidden --follow --exclude ".git" . "$1"
+	# ag --follow --hidden -g "" "$1"
+	rg --files --follow --hidden "$1"
+}
+
+# Use fd to generate the list for directory completion
+_fzf_compgen_dir() {
+  if type fdfind > /dev/null; then
+    fdfind --type d --hidden --follow --exclude ".git" --exclude "node_modules" "$1"
+  else
+    fd --type d --hidden --follow --exclude ".git" --exclude "node_modules" "$1"
+  fi
+}
+
+# (EXPERIMENTAL) Advanced customization of fzf options via _fzf_comprun function
+# - The first argument to the function is the name of the command.
+# - You should make sure to pass the rest of the arguments to fzf.
+_fzf_comprun() {
+  local command=$1
+  shift
+
+  case "$command" in
+    cd)           fzf "$@" --preview 'tree -C {} | head -200' ;;
+    export|unset) fzf "$@" --preview "eval 'echo \$'{}" ;;
+    ssh)          fzf "$@" --preview 'dig {}' ;;
+    *)            fzf "$@" --preview "echo '{}'" ;;
+  esac
+}
+
+##################
+## Colors
+##################
+
+# Set it to true if your terminal supports true colors
+# # Use alias color-test to check for the same
+export TERM_HAS_TRUE_COLOR="false"
+
+# test -r "~/.dir_colors" && eval $(dircolors ~/.dir_colors)
+source ~/.zsh/.lscolors.sh
+
+export GREP_COLORS="fn=34:ln=01;30:mt=01;34:se=30"
+
+local nord3="%F{8}"
+local nord7="%F{14}"
+local nord8="%F{6}"
+local nord9="%F{4}"
+local nord11="%F{1}"
+
+# local ripgrep_conf="--max-columns=150 --smart-case --colors=column:none --colors=column:fg:4 --colors=column:style:underline --colors=line:none --colors=line:fg:4 --colors=match:none --colors=match:bg:0 --colors=match:fg:6 --colors=path:none --colors=path:fg:14 --colors=path:style:bold"
+local ripgrep_conf="--color=auto --colors=column:none --colors=column:fg:4 --colors=column:style:underline --colors=line:none --colors=line:fg:4 --colors=match:none --colors=match:bg:0 --colors=match:fg:6 --colors=path:none --colors=path:fg:14 --colors=path:style:bold"
+
+alias ripgrep="ripgrep $ripgrep_conf"
+alias rg="rg $ripgrep_conf"
+# alias rgrep="rgrep $ripgrep_conf"
+
+typeset -Agx ZSH_NORD_COLORS
+
+if [ "$TERM_HAS_TRUE_COLOR" = "true" ] ; then
+  ZSH_NORD_COLORS[0]="#2e3440"
+  ZSH_NORD_COLORS[1]="#3b4252"
+  ZSH_NORD_COLORS[2]="#434c5e"
+  ZSH_NORD_COLORS[3]="#4c566a"
+  ZSH_NORD_COLORS[4]="#d8dee9"
+  ZSH_NORD_COLORS[5]="#e5e9f0"
+  ZSH_NORD_COLORS[6]="#eceff4"
+  ZSH_NORD_COLORS[7]="#8fbcbb"
+  ZSH_NORD_COLORS[8]="#88c0d0"
+  ZSH_NORD_COLORS[9]="#81a1c1"
+  ZSH_NORD_COLORS[10]="#5e81ac"
+  ZSH_NORD_COLORS[11]="#bf616a"
+  ZSH_NORD_COLORS[12]="#d08770"
+  ZSH_NORD_COLORS[13]="#ebcb8b"
+  ZSH_NORD_COLORS[14]="#a3be8c"
+  ZSH_NORD_COLORS[15]="#b48ead"
+  # The comment color with increased brightness base on `nord3`.
+  # See https://github.com/arcticicestudio/nord/issues/94 for more details.
+  ZSH_NORD_COLORS[comment]="#616e88"
+else
+  ZSH_NORD_COLORS[0]=-1
+  ZSH_NORD_COLORS[1]=0
+  ZSH_NORD_COLORS[2]=0
+  ZSH_NORD_COLORS[3]=8
+  ZSH_NORD_COLORS[4]=-1
+  ZSH_NORD_COLORS[5]=7
+  ZSH_NORD_COLORS[6]=15
+  ZSH_NORD_COLORS[7]=14
+  ZSH_NORD_COLORS[8]=6
+  ZSH_NORD_COLORS[9]=4
+  ZSH_NORD_COLORS[10]=12
+  ZSH_NORD_COLORS[11]=1
+  ZSH_NORD_COLORS[12]=11
+  ZSH_NORD_COLORS[13]=3
+  ZSH_NORD_COLORS[14]=2
+  ZSH_NORD_COLORS[15]=5
+  ZSH_NORD_COLORS[comment]=8
+fi
+
+# Set fzf default options
+FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS"
+# Use fzf in fullscreen mode with command line at the bottom, allow to cycle through results when moving out
+# of range at the bottom or start and always use 2 spaces for tab stops.
+FZF_DEFAULT_OPTS+='
+  --height=40%
+  --min-height=15
+  --reverse
+  --cycle
+  --prompt="❯ "
+  --pointer="→"
+  --marker="✚ "
+  --preview-window right:70%
+  --tabstop=2'
+#  --preview 'echo {}' 
+#  --preview-window down:1:noborder
+#  --prompt="❯ "
+#  --pointer="⮕→⭢"
+#  --marker="+"
+#  --header="🚀"
+
+# Adjust the colors to match the "Nord" theme.
+# See:
+#   1. https://www.nordtheme.com
+FZF_DEFAULT_OPTS+="
+  --color bg:$ZSH_NORD_COLORS[0],bg+:$ZSH_NORD_COLORS[0],fg:$ZSH_NORD_COLORS[5]
+  --color fg+:$ZSH_NORD_COLORS[7],hl:$ZSH_NORD_COLORS[8],hl+:$ZSH_NORD_COLORS[9]
+  --color preview-bg:$ZSH_NORD_COLORS[0],preview-fg:$ZSH_NORD_COLORS[5]
+  --color border:$ZSH_NORD_COLORS[3],gutter:$ZSH_NORD_COLORS[1],header:$ZSH_NORD_COLORS[8]
+  --color info:$ZSH_NORD_COLORS[8],marker:$ZSH_NORD_COLORS[14],pointer:$ZSH_NORD_COLORS[9]
+  --color prompt:$ZSH_NORD_COLORS[8],spinner:$ZSH_NORD_COLORS[8]"
+export FZF_DEFAULT_OPTS
+
+
+export LESS="--RAW-CONTROL-CHARS"
+export LESS_TERMCAP_mb=$(tput bold; tput setaf 2) # green
+export LESS_TERMCAP_md=$(tput bold; tput setaf 6) # cyan
+export LESS_TERMCAP_me=$(tput sgr0)
+export LESS_TERMCAP_so=$(tput bold; tput setaf 3; tput setab 0) # yellow on blue
+export LESS_TERMCAP_se=$(tput rmso; tput sgr0)
+export LESS_TERMCAP_us=$(tput smul; tput bold; tput setaf 7) # white
+export LESS_TERMCAP_ue=$(tput rmul; tput sgr0)
+export LESS_TERMCAP_mr=$(tput rev)
+export LESS_TERMCAP_mh=$(tput dim)
+export LESS_TERMCAP_ZN=$(tput ssubm)
+export LESS_TERMCAP_ZV=$(tput rsubm)
+export LESS_TERMCAP_ZO=$(tput ssupm)
+export LESS_TERMCAP_ZW=$(tput rsupm)
+export GROFF_NO_SGR=1         # For Konsole and Gnome-terminal

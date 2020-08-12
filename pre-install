@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+
+set -e
+
+# install tools 
+# TODO: vtop, glances, fonts-powerline
+sudo apt install mosh tree build-essential fzf zip tldr tmux silversearcher-ag ripgrep urlview ranger lolcat grc fasd fd-find neofetch figlet neovim thefuck
+
+apk add mosh sudo git ruby tree
+
+# install docker
+sudo apt install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg-agent \
+    software-properties-common
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+sudo apt update
+sudo apt install docker-ce docker-ce-cli containerd.io
+# use docker without sudo
+sudo groupadd docker
+sudo usermod -aG docker $USER
+newgrp docker
+
+# install linuxbrew
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+
+echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >> /home/ashutosh/.zprofile
+eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+
+# Brew installs
+brew install gcc bat exa navi lazydocker
+brew install jesseduffield/lazygit/lazygit
+
+# pip installs
+pip install howdoi dotbot
+
+# npm installs
+npm install -g how-2 git-delta vtop gtop dockly
+
+# install zsh
+sudo apt install zsh
+curl -L git.io/antigen > ~/.antigen.zsh
+sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+echo "[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local" >> ~/.zshrc
+echo "[[ -f ~/.zshrc.aliases ]] && source ~/.zshrc.aliases" >> ~/.zshrc
+
+# better colors
+mkdir /tmp/LS_COLORS && curl -L https://api.github.com/repos/trapd00r/LS_COLORS/tarball/master | tar xzf - --directory=/tmp/LS_COLORS --strip=1
+( cd /tmp/LS_COLORS && sh install.sh )
+#To enable the colors, add the following line to your shell's start-up script:
+# For Bourne shell (e.g. ~/.bashrc or ~/.zshrc):
+#  . "~/.local/share/lscolors.sh"
+# For C shell (e.g. ~/.cshrc):
+#  . "~/.local/share/lscolors.csh"
+
+
+# If you're using Git, you can add Dotbot as a submodule:
+
+# cd ~/.dotfiles # replace with the path to your dotfiles
+# git init # initialize repository if needed
+# git submodule add https://github.com/anishathalye/dotbot
+# git config -f .gitmodules submodule.dotbot.ignore dirty # ignore dirty commits in the submodule
+# cp dotbot/tools/git-submodule/install .
+# touch install.conf.yaml

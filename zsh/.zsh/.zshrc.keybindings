@@ -1,0 +1,30 @@
+#-- Keybindings ------------------------------------------------------------
+
+bindkey '^F' fzf-completion			# Ctrl-F
+bindkey '^H' fzf-history-widget 		# Ctrl-H
+bindkey '^^[[A' fzf-history-widget	# Ctrl-Up
+bindkey '^^[[5~' fzf-history-widget	# Ctrl-Up
+# bindkey '^^[[B' menu-select			# Meta-Down
+# bindkey '^^[[6~' menu-select			# Meta-Down
+# bindkey '^[[A' up-line-or-history		# Up
+# bindkey '^[[5~' up-line-or-history 	# Up
+# bindkey '^[OA' up-line-or-history		# Up
+
+bindkey '^^[[D' beginning-of-line
+bindkey '^^[[C' end-of-line
+
+bindkey '^[,' backward-word
+bindkey '^[.' forward-word
+bindkey '^[[' beginning-of-line
+bindkey '^[]' end-of-line
+
+# bindkey '^[^[[D' backward-word
+# bindkey '^[^[[C' forward-word
+# bindkey '^[[5D' beginning-of-line
+# bindkey '^[[5C' end-of-line
+
+#bindkey '^F' fzf-
+# ^F fzf-completion
+# ^I menu-complete
+# ^[[A ^[[5~ up-line-or-history
+# ^[[B ^[[6~ down-line-or-history
