@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # Finds the first pane which has vim running, in the same window
 __tmux_get_vim_pane() {
   local vim_pane

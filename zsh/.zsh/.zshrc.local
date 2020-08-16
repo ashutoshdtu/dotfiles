@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"

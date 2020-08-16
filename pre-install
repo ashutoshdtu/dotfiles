@@ -5,8 +5,8 @@ set -e
 # install tools 
 # TODO: vtop, glances, fonts-powerline
 sudo apt install mosh tree build-essential fzf zip tldr tmux silversearcher-ag ripgrep urlview ranger lolcat grc fasd fd-find neofetch figlet neovim thefuck
-
-apk add mosh sudo git ruby tree
+sudo apt install pandoc poppler-utils ffmpeg ripgrep cargo
+# apk add mosh sudo git ruby tree
 
 # install docker
 sudo apt install \
@@ -30,11 +30,11 @@ echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >> /home/ashutosh/.z
 eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 
 # Brew installs
-brew install gcc bat exa navi lazydocker
+brew install gcc bat exa navi lazydocker rga pandoc poppler tesseract ffmpeg
 brew install jesseduffield/lazygit/lazygit
 
 # pip installs
-pip install howdoi dotbot
+pip3 install howdoi dotbot mdv
 
 # npm installs
 npm install -g how-2 git-delta vtop gtop dockly

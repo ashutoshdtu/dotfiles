@@ -1,6 +1,8 @@
+#!/usr/bin/env zsh
+
 #-- Keybindings ------------------------------------------------------------
 
-bindkey '^F' fzf-completion			# Ctrl-F
+bindkey -s '^F' 'fzf-rga\n'    			# Ctrl-F
 bindkey '^H' fzf-history-widget 		# Ctrl-H
 bindkey '^^[[A' fzf-history-widget	# Ctrl-Up
 bindkey '^^[[5~' fzf-history-widget	# Ctrl-Up
