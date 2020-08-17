@@ -7,6 +7,7 @@ set -e
 sudo apt install mosh tree build-essential fzf zip tldr tmux silversearcher-ag ripgrep urlview ranger lolcat grc fasd fd-find neofetch figlet neovim thefuck
 sudo apt install pandoc poppler-utils ffmpeg ripgrep cargo
 # apk add mosh sudo git ruby tree
+# apk add bash coreutils ncurses curl file g++ grep git libc6-compat make ruby ruby-bigdecimal ruby-etc ruby-fiddle ruby-irb ruby-json ruby-test-unit sudo mosh git tree fzf zip tmux 
 
 # install docker
 sudo apt install \

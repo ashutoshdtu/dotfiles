@@ -17,7 +17,11 @@ if type nvim > /dev/null; then
 	alias vim='nvim'
 fi
 
-eval $(thefuck --alias fuck)
+if type thefuck > /dev/null; then
+	eval $(thefuck --alias fuck)
+fi
+
+
 alias du-summary='du -h -s * | sort -nr'
 alias docker-prune='sudo docker system prune -a'
 
@@ -39,19 +43,22 @@ alias search-files='fzf'
 
 # alias exa to l
 alias ls='ls --color=auto --group-directories-first'
-# alias ls='exa --group-directories-first --color-scale --color=always'
-alias l='exa -lbhF --git --group-directories-first --color-scale --color=always' # list, size, type, git
-alias la='exa -lbhHigmuSa --group-directories-first --color-scale --color=always --time-style=long-iso --git --color-scale'  # all list
-alias lx='exa -lbhHigmuSa@ --group-directories-first --color-scale --color=always --time-style=long-iso --git --color-scale' # all + extended list
-alias ls-all='exa -lbhHigmuSa --group-directories-first --color-scale --color=always --time-style=long-iso --git --color-scale' # same as la
-alias ls-extended='exa -lbhHigmuSa@ --group-directories-first --color-scale --color=always --time-style=long-iso --git --color-scale' # same as lx
 
-# tree views
-alias lS='exa -1'  # one column, just names
-alias lt='exa -lbhF --git --group-directories-first --color-scale --color=always --tree --level=2'  # tree
-alias lst='exa -lbhF --git --group-directories-first --color-scale --color=always --tree --level=2'
-alias ls-tree='exa -lbhF --git --group-directories-first --color-scale --color=always --tree --level=2'
-alias la-tree='exa -lbhHigmuSa --git --group-directories-first --color-scale --color=always --tree'
+if type exa > /dev/null; then
+	# alias ls='exa --group-directories-first --color-scale --color=always'
+	alias l='exa -lbhF --git --group-directories-first --color-scale --color=always' # list, size, type, git
+	alias la='exa -lbhHigmuSa --group-directories-first --color-scale --color=always --time-style=long-iso --git --color-scale'  # all list
+	alias lx='exa -lbhHigmuSa@ --group-directories-first --color-scale --color=always --time-style=long-iso --git --color-scale' # all + extended list
+	alias ls-all='exa -lbhHigmuSa --group-directories-first --color-scale --color=always --time-style=long-iso --git --color-scale' # same as la
+	alias ls-extended='exa -lbhHigmuSa@ --group-directories-first --color-scale --color=always --time-style=long-iso --git --color-scale' # same as lx
+
+	# tree views
+	alias lS='exa -1'  # one column, just names
+	alias lt='exa -lbhF --git --group-directories-first --color-scale --color=always --tree --level=2'  # tree
+	alias lst='exa -lbhF --git --group-directories-first --color-scale --color=always --tree --level=2'
+	alias ls-tree='exa -lbhF --git --group-directories-first --color-scale --color=always --tree --level=2'
+	alias la-tree='exa -lbhHigmuSa --git --group-directories-first --color-scale --color=always --tree'
+fi
 
 # forgit aliases
 alias igit='lazygit'
@@ -74,7 +81,7 @@ alias browser='browsh'
 alias browse-web='browsh'
 # alias browsh='sudo docker run --rm -it browsh/browsh'
 
-alias clear_mosh='pgrep mosh-server | grep -v $(ps -o ppid --no-headers $$) | xargs kill'
+alias clear-mosh='pgrep mosh-server | grep -v $(ps -o ppid --no-headers $$) | xargs kill'
 
 
 ####################################
