@@ -117,7 +117,9 @@ antigen theme 'romkatv/powerlevel10k'
 antigen apply
 
 # Init fasd
-eval "$(fasd --init auto)"
+if type fasd > /dev/null; then
+	eval "$(fasd --init auto)"
+fi
 
 # Source local settings
 [[ -f ~/.zsh/.zshrc.local ]] && source ~/.zsh/.zshrc.local
