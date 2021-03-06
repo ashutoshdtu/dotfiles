@@ -121,6 +121,11 @@ if type fasd > /dev/null; then
 	eval "$(fasd --init auto)"
 fi
 
+# Init direnv
+if type direnv > /dev/null; then
+  eval "$(direnv hook zsh)"
+fi
+
 # Source local settings
 [[ -f ~/.zsh/.zshrc.local ]] && source ~/.zsh/.zshrc.local
 # Source aliases
