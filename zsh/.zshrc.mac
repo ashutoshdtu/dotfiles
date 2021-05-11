@@ -1,0 +1,185 @@
+zmodload zsh/zprof
+
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# neofetch
+
+# zstyle :compinstall filename '/Users/ashutosh/.zshrc'
+# Lines configured by zsh-newuser-install
+export HISTFILE=~/.zsh_history
+export HISTSIZE=10000
+export SAVEHIST=30000
+setopt INC_APPEND_HISTORY
+# setopt autocd beep extendedglob nomatch notify
+# bindkey -v
+# End of lines configured by zsh-newuser-install
+
+
+### Added by Zinit's installer
+if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
+    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
+    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
+    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
+        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
+        print -P "%F{160}▓▒░ The clone has failed.%f%b"
+fi
+
+source "$HOME/.zinit/bin/zinit.zsh"
+
+## TMUX
+# Automatically start tmux
+#ZSH_TMUX_AUTOSTART=true
+#
+# Automatically connect to a previous session if it exists
+#ZSH_TMUX_AUTOCONNECT=true
+#
+# Uncomment the following line to use case-sensitive completion.
+CASE_SENSITIVE="false"
+
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
+#HYPHEN_INSENSITIVE="true"
+
+# Uncomment the following line to disable bi-weekly auto-update checks.
+# DISABLE_AUTO_UPDATE="true"
+
+# Uncomment the following line to automatically update without prompting.
+# DISABLE_UPDATE_PROMPT="true"
+
+# Uncomment the following line to change how often to auto-update (in days).
+# export UPDATE_ZSH_DAYS=13
+
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS="true"
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="false"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Load the oh-my-zsh's library.
+
+# Bundles from the default repo (robbyrussell's oh-my-zsh).
+# Load OMZ Git library
+zinit snippet OMZL::git.zsh
+
+# Load Git plugin from OMZ
+zinit snippet OMZP::git
+
+# zinit snippet OMZP::brew
+zinit snippet OMZP::tmux
+# zinit snippet OMZP::pip
+# zinit snippet OMZP::docker
+# zinit snippet OMZP::docker-compose
+zinit light mfaerevaag/wd
+zinit snippet OMZP::fzf
+zinit snippet OMZP::sudo
+# zinit snippet OMZP::command-not-found
+
+export NVM_COMPLETION=true
+export NVM_LAZY_LOAD=true
+# export NVM_LAZY_LOAD_EXTRA_COMMANDS=('vim')
+zinit load lukechilds/zsh-nvm
+
+# zinit light zpm-zsh/colorize
+zinit light wfxr/forgit
+# zinit load mafredri/zsh-async
+# zinit load ashutoshdtu/zsh-fuzzy-search-and-edit
+# zinit load romkatv/powerlevel10k
+
+# Syntax highlighting bundle.
+zinit light zsh-users/zsh-syntax-highlighting
+
+# Autocomplete
+# zstyle ':autocomplete:*' magic off
+# zstyle ':autocomplete:tab:*' completion select #select,cycle,insert,fzf
+# zstyle ':autocomplete:*' fuzzy-search off
+# zstyle ':autocomplete:*:too-many-matches' message \
+#   'Too many completions to fit on screen. Type more to filter or press Ctrl-I to open the menu.'
+
+# zstyle ':autocomplete:tab:*' insert-unambiguous no
+# no:  (Shift-)Tab inserts top (bottom) completion.
+# yes: Tab first inserts substring common to all listed completions (if any).
+# zstyle ':autocomplete:tab:*' widget-style complete-word
+# complete-word: (Shift-)Tab inserts top (bottom) completion.
+# menu-complete: Press again to cycle to next (previous) completion.
+# menu-select:   Same as `menu-complete`, but updates selection in menu.
+# NOTE: Can NOT be changed at runtime.
+# zstyle ':autocomplete:tab:*' fzf-completion no
+# no:  Tab uses Zsh's completion system only.
+# yes: Tab first tries Fzf's completion, then falls back to Zsh's.
+# zinit light marlonrichert/zsh-autocomplete
+
+# zinit light zsh-users/zsh-completions
+
+# Autosuggestions
+export ZSH_AUTOSUGGEST_USE_ASYNC=""
+zinit light zsh-users/zsh-autosuggestions
+
+# Load the theme.
+# zinit load robbyrussell
+# zinit load 'romkatv/powerlevel10k'
+zinit ice depth=1; zinit light romkatv/powerlevel10k
+
+# Init fasd
+if type fasd > /dev/null; then
+	eval "$(fasd --init auto)"
+fi
+
+# Init direnv
+if type direnv > /dev/null; then
+  eval "$(direnv hook zsh)"
+fi
+
+# Perform compinit only once a day.
+#.zinit-shade-off $___mode
+autoload -Uz compinit
+compinit
+#.zinit-shade-on $___mode
+
+# setopt EXTENDEDGLOB
+# for dump in $ZSH_COMPDUMP(#qN.m1); do
+#   compinit
+#   if [[ -s "$dump" && (! -s "$dump.zwc" || "$dump" -nt "$dump.zwc") ]]; then
+#     zcompile "$dump"
+#   fi
+#   echo "Initializing Completions..."
+# done
+# unsetopt EXTENDEDGLOB
+# compinit -C
+
+zinit cdreplay -q   # -q is for quiet; actually run all the `compdef's saved before
+                    #`compinit` call (`compinit' declares the `compdef' function, so
+                    # it cannot be used until `compinit' is ran; Zinit solves this
+                    # via intercepting the `compdef'-calls and storing them for later
+                    # use with `zinit cdreplay')
+
+# Source local settings
+[[ -f ~/.zsh/.zshrc.local ]] && source ~/.zsh/.zshrc.local
+# Source aliases
+[[ -f ~/.zsh/.zshrc.aliases ]] && source ~/.zsh/.zshrc.aliases
+# Source keybindings
+[[ -f ~/.zsh/.zshrc.keybindings ]] && source ~/.zsh/.zshrc.keybindings
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# added by travis gem
+[ ! -s ~/.travis/travis.sh ] || source ~/.travis/travis.sh

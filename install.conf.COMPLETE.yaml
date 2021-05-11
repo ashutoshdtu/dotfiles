@@ -13,7 +13,7 @@
       recursive: true
 
 - link:
-    ~/.zshrc: zsh/.zshrc.mac
+    ~/.zshrc: zsh/.zshrc
     ~/.p10k.zsh: zsh/.p10k.zsh
     ~/.zsh: zsh/.zsh
     ~/.tmux: tmux/.tmux

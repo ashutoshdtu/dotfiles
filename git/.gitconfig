@@ -31,4 +31,7 @@
 
 [user]
 	email = ashutoshdtu@gmail.com
+	username = ashutoshdtu
 	name = Ashutosh Mishra
+[credential]
+	helper = osxkeychain

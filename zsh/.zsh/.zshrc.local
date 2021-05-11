@@ -25,6 +25,8 @@ prompt_context(){}
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
+export HOWDOI_SEARCH_ENGINE=duckduckgo
+
 ########################
 ## fzf configuration
 ########################
@@ -61,7 +63,7 @@ _fzf_compgen_path() {
 _fzf_compgen_dir() {
   if type fdfind > /dev/null; then
     fdfind --type d --hidden --follow --exclude ".git" --exclude "node_modules" "$1"
-  else
+  elif type fd > /dev/null; then
     fd --type d --hidden --follow --exclude ".git" --exclude "node_modules" "$1"
   fi
 }
@@ -198,3 +200,7 @@ export LESS_TERMCAP_ZV=$(tput rsubm)
 export LESS_TERMCAP_ZO=$(tput ssupm)
 export LESS_TERMCAP_ZW=$(tput rsupm)
 export GROFF_NO_SGR=1         # For Konsole and Gnome-terminal
+
+# TODO: for macos only (/Library/Java/JavaVirtualMachines/adoptopenjdk-11.jdk/Contents/Home)
+export JAVA_HOME=$(/usr/libexec/java_home)
+export PATH=$PATH:/opt/apache-maven-3.8.1/bin

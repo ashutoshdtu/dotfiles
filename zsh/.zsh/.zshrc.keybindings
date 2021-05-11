@@ -8,7 +8,7 @@ bindkey '^^[[A' fzf-history-widget	# Ctrl-Up
 bindkey '^^[[5~' fzf-history-widget	# Ctrl-Up
 # bindkey '^^[[B' menu-select			# Meta-Down
 # bindkey '^^[[6~' menu-select			# Meta-Down
-# bindkey '^[[A' up-line-or-history		# Up
+bindkey '^[[A' up-line-or-history		# Up
 # bindkey '^[[5~' up-line-or-history 	# Up
 # bindkey '^[OA' up-line-or-history		# Up
 

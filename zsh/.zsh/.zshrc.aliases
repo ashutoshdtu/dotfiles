@@ -42,22 +42,27 @@ alias ils='ranger' # interactive ls
 alias search-files='fzf'
 
 # alias exa to l
-alias ls='ls --color=auto --group-directories-first'
+# alias ls='ls --color=auto --group-directories-first'
 
 if type exa > /dev/null; then
-	# alias ls='exa --group-directories-first --color-scale --color=always'
-	alias l='exa -lbhF --git --group-directories-first --color-scale --color=always' # list, size, type, git
-	alias la='exa -lbhHigmuSa --group-directories-first --color-scale --color=always --time-style=long-iso --git --color-scale'  # all list
-	alias lx='exa -lbhHigmuSa@ --group-directories-first --color-scale --color=always --time-style=long-iso --git --color-scale' # all + extended list
-	alias ls-all='exa -lbhHigmuSa --group-directories-first --color-scale --color=always --time-style=long-iso --git --color-scale' # same as la
-	alias ls-extended='exa -lbhHigmuSa@ --group-directories-first --color-scale --color=always --time-style=long-iso --git --color-scale' # same as lx
+	[ -z "$PS1" ] && alias ls='exa -bhF --icons --git --group-directories-first --color-scale --color=always'
+	alias l='exa -bhF --icons --git --group-directories-first --color-scale --color=always' # list, size, type, git
+	alias la='l -a' # all list 
+	alias lsa='la'
+	alias ll='l -l' # list, size, type, git 'l -l'
+	alias lla='l -lHigmuSa' # all list
+	alias lx='l -lHigmuSa@ --time-style=long-iso' # all + extended list 
+	alias ls-all='lla' 
+	alias ls-extended='lx' # same as lx
 
 	# tree views
-	alias lS='exa -1'  # one column, just names
-	alias lt='exa -lbhF --git --group-directories-first --color-scale --color=always --tree --level=2'  # tree
-	alias lst='exa -lbhF --git --group-directories-first --color-scale --color=always --tree --level=2'
-	alias ls-tree='exa -lbhF --git --group-directories-first --color-scale --color=always --tree --level=2'
-	alias la-tree='exa -lbhHigmuSa --git --group-directories-first --color-scale --color=always --tree'
+	# alias lS='exa -1 --group-directories-first'  # one column, just names
+	alias lt='l --tree --level=2'  # tree
+	alias lst='lt'
+	alias llt='l -l --tree --level=2'
+	alias lat='l -la --tree --level=2'
+	alias ls-tree='llt'
+	alias la-tree='l -lHigmuSa --tree'
 fi
 
 # forgit aliases
@@ -71,7 +76,7 @@ alias git-restore='gcf'
 alias git-clean='gclean'
 alias git-stash-show='gss'
 
-# aliases for lazydocer docker console
+# aliases for lazydocker docker console
 alias idocker='sudo lazydocker'
 alias docker-manager='sudo lazydocker'
 # alias lazyzdocker='sudo docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock -v /home/ashutosh/Dropbox/workspace/services/lazydocker/config:/.config/jesseduffield/lazydocker lazyteam/lazydocker'
@@ -111,15 +116,16 @@ function cd() {
         return
     fi
     while true; do
-        local lsd=$(echo ".." && ls -p | grep '/$' | sed 's;/$;;')
+        local lsd=$(echo ".." && exa -bhFa --icons --git --group-directories-first | grep '/$' | sed 's;/$;;')
         local dir="$(printf '%s\n' "${lsd[@]}" |
             fzf --reverse --preview '
-                __cd_nxt="$(echo {})";
+                __cd_nxt="$(echo {} | sed "s/^. //")";
                 __cd_path="$(echo $(pwd)/${__cd_nxt} | sed "s;//;/;")";
                 echo $__cd_path;
                 echo;
-                ls -p --color=always "${__cd_path}";
-        ')"
+                exa -albhF --icons --git --group-directories-first --color-scale --color=always --tree --level=1 "${__cd_path}"; ' |
+        	    sed "s/^. //" 
+	)"
         [[ ${#dir} != 0 ]] || return 0
         builtin cd "$dir" &> /dev/null
     done
